@@ -27,7 +27,7 @@
     - call the `findOne()` method on the user collection filtering by email
     - then if a user is found send the message `a user already exists with this email`
     - if a user is not found create a `newUser` object from the UserCollection model with properties `name`, `email` and `password` pulled from the request body
-    - salt and has the `newUser` password using `bcrypt`
+    - salt and hash the `newUser` password using `bcrypt`
     - save the new user
 - Login Route
     - call the `findOne()` method on the user collection filtering by email
