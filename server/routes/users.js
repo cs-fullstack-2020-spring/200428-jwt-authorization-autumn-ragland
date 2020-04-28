@@ -36,7 +36,7 @@ router.post('/login', (req,res) => {
                                 id : user._id,
                                 name : user.name,
                             }
-                            jwt.sign(payload, secretKey, {expiresIn : 15}, (error, token) => {
+                            jwt.sign(payload, secretKey, {expiresIn : 120}, (error, token) => {
                                 error ? res.status(404).json({error : error}) : res.json({token : `Bearer ${token}`});
                             });
                         } else {
