@@ -38,4 +38,13 @@
 - Secret Route
     - pass the middleware function `verifyToken` as the second parameter of the route
     - define the function `verifyToken` below the route definition
-        - 
+        - define a variable `bearerHeader` as the `authorization` property of headers
+        - if that property of headers has a value set the `req.token` as the second word in the string (the token string in the bearer token) and continue
+        - if not send back the message `Forbidden` with a `403` status
+    - call the `verify` method on `jwt` and pass in the `req.token`, the secret key, and a callback accepting errors and results. If errors, send them. If results, send them
+
+### Client
+- Create class based parent component `AppContainer` and route to class based components `Login`, `Register`, and `Secret` call based components
+- In the `Login` component create a controlled component form that calls the post endpoint to login a user and console log the json response
+- In the `Register` component create a controlled component form that calls the post endpoint to register a user and console log the json response
+- In the `Secret` component  

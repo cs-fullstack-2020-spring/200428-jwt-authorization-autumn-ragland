@@ -87,7 +87,7 @@ router.post('/login', (req, res) => {
                         }
                         // if passwords don't match send 404 message
                         else {
-                            res.status(404).json({error : `User with email ${req.body.password} incorrect password`});
+                            res.status(404).json({error : `User with email ${req.body.email} incorrect password`});
                         }
                     });
             }
