@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
             // if email already exists in database
             if (user) {
                 // send `already exists` message
-                res.send(`User with ${req.body.email} already exists`);
+                res.json({message : `User with ${req.body.email} already exists`});
             }
             // if user does not already exist in database
             else {
@@ -41,7 +41,7 @@ router.post('/register', (req, res) => {
                         // If hash has errors send error message
                         if (error) {
                             console.log("Password has not been hashed")
-                            res.status(500).send(error);
+                            res.status(500).json({error : error});
                         }
                         // if hash does not have errors
                         else {
@@ -59,11 +59,47 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    res.send("Login");
+    // res.send("Login");
+    // check that email exists in the database
+    UserCollection.findOne({ email: req.body.email })
+        .then(user => {
+            // if email does not exist send 404 message
+            if (!user) {
+                res.status(500).json({message : `User with email ${req.body.email} not found`})
+            }
+            // if user does exist
+            else {
+                // compare password passed in request body with hashed password in database
+                bcrypt.compare(req.body.password, user.password)
+                    .then(isMatch => {
+                        // if passwords match
+                        if (isMatch) {
+                            // define payload with id and name properties from database
+                            let payload = {
+                                id: user._id,
+                                name: user.name,
+                            }
+                            // create JWT using `sign()` method passing in payload
+                            jwt.sign(payload, secretKey, { expiresIn: 30 }, (error, token) => {
+                                // if errors send errors, otherwise send token as object
+                                error ? res.status(404).json({error : error}) : res.json({ token: `Bearer ${token}` });
+                            });
+                        }
+                        // if passwords don't match send 404 message
+                        else {
+                            res.status(404).json({message : `User with email ${req.body.password} incorrect password`});
+                        }
+                    });
+            }
+        });
 });
 
-router.post('/secret', (req, res) => {
+router.post('/secret', verifyToken, (req, res) => {
     res.send("Secret");
 });
+function verifyToken(req,res,next){
+    console.log("verify token");
+    next();
+}
 
 module.exports = router;

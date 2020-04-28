@@ -22,7 +22,6 @@
     - jsonwebtoken as `jwt`
     - bcryptjs as `bcrypt`
     - secret key from config file as `secretKey`
-    - 
 - Registration Route
     - call the `findOne()` method on the user collection filtering by email
     - then if a user is found send the message `a user already exists with this email`
@@ -36,3 +35,7 @@
     - then if the passwords match define a payload object and pass it into the `jwt` `sign()` method along with the secret key defined in your keys file in your config folder, set the `expiresIn` property to 30 seconds, and a callback function with errors and token
     - in the `sign()` callback function, if there are errors send errors and if there is a token send the token
     - if the passwords do not match send the message `User with email ${email} incorrect password`
+- Secret Route
+    - pass the middleware function `verifyToken` as the second parameter of the route
+    - define the function `verifyToken` below the route definition
+        - 
