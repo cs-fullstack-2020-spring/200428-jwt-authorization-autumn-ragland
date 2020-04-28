@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
             // if email already exists in database
             if (user) {
                 // send `already exists` message
-                res.json({message : `User with ${req.body.email} already exists`});
+                res.json({error : `User with ${req.body.email} already exists`});
             }
             // if user does not already exist in database
             else {
@@ -65,7 +65,7 @@ router.post('/login', (req, res) => {
         .then(user => {
             // if email does not exist send 404 message
             if (!user) {
-                res.status(500).json({message : `User with email ${req.body.email} not found`})
+                res.status(500).json({error : `User with email ${req.body.email} not found`})
             }
             // if user does exist
             else {
@@ -87,7 +87,7 @@ router.post('/login', (req, res) => {
                         }
                         // if passwords don't match send 404 message
                         else {
-                            res.status(404).json({message : `User with email ${req.body.password} incorrect password`});
+                            res.status(404).json({error : `User with email ${req.body.password} incorrect password`});
                         }
                     });
             }
@@ -95,11 +95,23 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/secret', verifyToken, (req, res) => {
-    res.send("Secret");
+    // res.send("Secret");
+    jwt.verify(req.token, secretKey, (errors, results) => {
+        errors ? res.status(500).json({error :"verification error"}) : res.json({message : results});
+    })
 });
 function verifyToken(req,res,next){
-    console.log("verify token");
-    next();
+    // console.log("verify token");
+    let bearerHeader = req.headers["authorization"];
+    if(bearerHeader){
+        let bearer = bearerHeader.split(' ');
+        let bearerToken = bearer[1];
+        req.token = bearerToken;
+        // console.log(req.token);
+        next();
+    } else {
+        res.status(403).json({error : "Forbidden"});
+    }
 }
 
 module.exports = router;
