@@ -4,12 +4,8 @@ import React, { Component, Fragment } from "react";
 class Secret extends Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
     }
 
-    
     render(){
         if(this.props.token){   
         return(
@@ -17,9 +13,7 @@ class Secret extends Component{
                 <h1>Super Secret Page for Logged in Users</h1>
                 {this.props.token.name}
             </Fragment>
-        )
-
-        }
+        )}
         return(
             <Fragment>
                 <h1>Please Log In</h1>

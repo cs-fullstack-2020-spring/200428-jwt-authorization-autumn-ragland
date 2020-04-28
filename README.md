@@ -47,4 +47,6 @@
 - Create class based parent component `AppContainer` and route to class based components `Login`, `Register`, and `Secret` call based components
 - In the `Login` component create a controlled component form that calls the post endpoint to login a user and console log the json response
 - In the `Register` component create a controlled component form that calls the post endpoint to register a user and console log the json response
-- In the `Secret` component  
+- In the `AppContainer` component call the post endpoint that verifies JWT tokens and set the response to a property of state in a method called `logInUser`, call this method as a property in the `Login` component when a user logs in passing in the generated token from the json response
+- In the `AppContainer` component define a method called `logOutUser` to set the `token` property of state to empty an string call this method when the user clicks a `Log Out` link that routes to the home page
+- In the `Secret` component  if the `token` property of state passed down from the parent has a value display the message `Welcome logged in user [USERNAME]`, if the `token` property of state passed down from the parent does not have a value display the message `Please Log in`

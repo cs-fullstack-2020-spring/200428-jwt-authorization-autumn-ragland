@@ -46,7 +46,7 @@ class Login extends Component {
         if(json.error){
             window.alert(json.error)
         } else {
-            this.props.auth(json.token);
+            this.props.logInUser(json.token);
         }
         console.log(json.token);
     }

@@ -17,12 +17,12 @@ class AppContainer extends Component {
     //     this.checkIfLoggedInUser();
     // }
 
-    logoutUser = () => {
+    logOutUser = () => {
         this.setState({token : ""});
     }
 
     // when form is submitted read user from database
-    checkIfLoggedInUser = async (token) => {
+    logInUser = async (token) => {
         // fetch server endpoint 
         let response = await fetch('/users/secret', {
             method: "POST",
@@ -48,10 +48,10 @@ class AppContainer extends Component {
                 <Router>
                     <Link to="/">Home</Link> |
                     <Link to="/login">Login</Link> |
-                    <Link to = "/" onClick = {this.logoutUser}>Logout</Link> |
+                    <Link to = "/" onClick = {this.logOutUser}>Logout</Link> |
                     <Link to="/register">Registration</Link> |
                     <Link to="/secret">Secret</Link>
-                    <Route path="/login" component={ () => <Login auth = {this.checkIfLoggedInUser} /> } />
+                    <Route path="/login" component={ () => <Login logInUser = {this.logInUser} /> } />
                     <Route path="/register" component={Register} />
                     <Route path="/secret" component={ () => <Secret token = {this.state.token} /> } />
                 </Router>
