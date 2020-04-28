@@ -1,6 +1,6 @@
 let express = require("express");
 let app = express();
-let port = 8000;
+let port = require('./config/keys').port;
 
 // CONNECTING TO A MONGO DB DATABASE
 // reference the mongoose module 
